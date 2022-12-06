@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Alert, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchJobs, saveSearchValue } from "../redux/actions";
@@ -9,6 +9,8 @@ const MainSearch = () => {
   const dispatch = useDispatch();
   const query = useSelector((state) => state.value.value);
   const jobs = useSelector((state) => state.jobs.stock);
+  const areLoading = useSelector((state) => state.jobs.isLoading);
+  const areError = useSelector((state) => state.jobs.isError);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -39,9 +41,26 @@ const MainSearch = () => {
           </Form>
         </Col>
         <Col xs={10} className="mx-auto mb-5">
-          {jobs.map((jobData) => (
-            <Job key={jobData._id} data={jobData} />
-          ))}
+          {areError ? (
+            <Alert variant="danger" className="text-center">
+              `An Error Occured. Look here []`
+            </Alert>
+          ) : (
+            <Col xs={12} className="mx-auto mb-5">
+              {jobs.map((jobData) => (
+                <Job key={jobData._id} data={jobData} />
+              ))}
+            </Col>
+          )}
+          <div className="d-flex justify-content-center">
+            {areLoading && (
+              <Spinner
+                animation="border"
+                variant="success"
+                className="ml-2, mt-5"
+              />
+            )}
+          </div>
         </Col>
       </Row>
     </Container>
