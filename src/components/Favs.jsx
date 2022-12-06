@@ -19,13 +19,15 @@ export default function Favs() {
       <Row>
         <Col sm={12}>
           <ul style={{ listStyle: "none" }}>
-            {areLoading && (
-              <Spinner
-                animation="border"
-                variant="info"
-                className="ml-2, mt-5"
-              />
-            )}
+            <div className="d-flex justify-content-center">
+              {areLoading && (
+                <Spinner
+                  animation="border"
+                  variant="success"
+                  className="ml-2, mt-5"
+                />
+              )}
+            </div>
             {jobs.map((job, i) => (
               <Row key={i} className="my-4 align-items-center">
                 <Col xs={1}>
